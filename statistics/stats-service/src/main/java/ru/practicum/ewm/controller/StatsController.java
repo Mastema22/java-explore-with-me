@@ -20,7 +20,6 @@ public class StatsController {
     private final StatsService statsService;
 
     @GetMapping("/stats")
-    @ResponseStatus(HttpStatus.CREATED)
     public List<ViewStatsDto> getStats(@RequestParam(value = "start") LocalDateTime start,
                                        @RequestParam(value = "end") LocalDateTime end,
                                        @RequestParam(value = "uris", required = false) List<String> uris,
