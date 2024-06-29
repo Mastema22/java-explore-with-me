@@ -19,7 +19,7 @@ public class StatsClient extends BaseClient {
     public StatsClient(@Value("${stats-service.url}") String serviceUrl, RestTemplateBuilder builder) {
         super(
                 builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(serviceUrl + ""))
+                        .uriTemplateHandler(new DefaultUriBuilderFactory(serviceUrl))
                         .requestFactory(HttpComponentsClientHttpRequestFactory::new)
                         .build()
         );

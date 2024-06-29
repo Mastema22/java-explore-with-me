@@ -3,7 +3,6 @@ package ru.practicum.ewm.controller;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.request.EndpointHitDto;
 import ru.practicum.ewm.response.ViewStatsDto;
@@ -32,7 +31,6 @@ public class StatsController {
     }
 
     @PostMapping(path = "/hit")
-    @ResponseStatus(HttpStatus.CREATED)
     public EndpointHitDto saveHit(@Valid
                                   @RequestParam EndpointHitDto endpointHitDto) {
         EndpointHitDto endpointHitDtoResult = statsService.saveHit(endpointHitDto);
