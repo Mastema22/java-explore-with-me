@@ -14,7 +14,7 @@
 
 	<modules>
 		<module>statistics</module>
-		<module>ewm-service</module>
+		<module>main-service</module>
 	</modules>
 
 	<dependencies>
@@ -68,8 +68,6 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 	</dependencies>
-
-
 
 	<groupId>ru.practicum</groupId>
 	<artifactId>explore-with-me</artifactId>
