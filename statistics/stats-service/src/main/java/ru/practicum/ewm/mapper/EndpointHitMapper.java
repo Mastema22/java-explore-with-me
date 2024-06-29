@@ -5,7 +5,7 @@ import ru.practicum.ewm.request.EndpointHitDto;
 import ru.practicum.ewm.model.EndpointHit;
 
 @Component
-public class StatsMapper {
+public class EndpointHitMapper {
 
     public static EndpointHit toEndpointHit(EndpointHitDto endpointHitDto) {
         EndpointHit endpointHit = new EndpointHit();

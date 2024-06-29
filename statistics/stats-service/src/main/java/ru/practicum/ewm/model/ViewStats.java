@@ -1,4 +1,4 @@
-package ru.practicum.ewm.model.stats;
+package ru.practicum.ewm.model;
 
 import lombok.*;
 
@@ -6,7 +6,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ViewStats {
     private String app;
     private String uri;

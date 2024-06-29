@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.mapper.ViewStatsMapper;
 import ru.practicum.ewm.request.EndpointHitDto;
 import ru.practicum.ewm.response.ViewStatsDto;
-import ru.practicum.ewm.mapper.StatsMapper;
+import ru.practicum.ewm.mapper.EndpointHitMapper;
 import ru.practicum.ewm.repository.StatsRepository;
 
 import java.time.LocalDateTime;
@@ -19,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class StatsServiceImpl implements StatsService {
+
     private final StatsRepository repository;
 
     @Override
@@ -34,7 +35,7 @@ public class StatsServiceImpl implements StatsService {
     @Transactional
     @Override
     public EndpointHitDto saveHit(EndpointHitDto endpointHitDto) {
-        return StatsMapper.toEndpointHitDto(repository.save(StatsMapper.toEndpointHit(endpointHitDto)));
+        EndpointHitDto result = EndpointHitMapper.toEndpointHitDto(repository.save(EndpointHitMapper.toEndpointHit(endpointHitDto)));
+        return result;
     }
-
 }

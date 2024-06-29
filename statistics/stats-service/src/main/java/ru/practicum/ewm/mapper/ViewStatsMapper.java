@@ -1,11 +1,13 @@
 package ru.practicum.ewm.mapper;
 
-import ru.practicum.ewm.model.stats.ViewStats;
+import org.springframework.stereotype.Component;
+import ru.practicum.ewm.model.ViewStats;
 import ru.practicum.ewm.response.ViewStatsDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class ViewStatsMapper {
 
     public static ViewStatsDto toViewStatsDto(ViewStats viewStats) {
