@@ -5,13 +5,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import ru.practicum.ewm.request.EndpointHitDto;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
 
+@RestController
 public class StatsClient extends BaseClient {
 
     @Autowired
