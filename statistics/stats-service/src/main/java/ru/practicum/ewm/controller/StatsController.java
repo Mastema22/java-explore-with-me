@@ -3,6 +3,7 @@ package ru.practicum.ewm.controller;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.request.EndpointHitDto;
 import ru.practicum.ewm.response.ViewStatsDto;
@@ -16,11 +17,14 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class StatsController {
+
     private final StatsService statsService;
 
     @GetMapping("/stats")
-    public List<ViewStatsDto> getStats(@RequestParam(value = "start") LocalDateTime start,
-                                       @RequestParam(value = "end") LocalDateTime end,
+    public List<ViewStatsDto> getStats(@RequestParam(value = "start")
+                                       @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
+                                       @RequestParam(value = "end")
+                                       @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
                                        @RequestParam(value = "uris", required = false) List<String> uris,
                                        @RequestParam(value = "unique", defaultValue = "false") Boolean unique) {
         validateParam(start, end);
@@ -32,7 +36,7 @@ public class StatsController {
 
     @PostMapping(path = "/hit")
     public EndpointHitDto saveHit(@Valid
-                                  @RequestParam EndpointHitDto endpointHitDto) {
+                                  @RequestBody EndpointHitDto endpointHitDto) {
         EndpointHitDto endpointHitDtoResult = statsService.saveHit(endpointHitDto);
         log.info("Request received POST /hit");
         log.info("The data has been saved successfully!");
