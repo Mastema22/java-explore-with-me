@@ -43,5 +43,4 @@ public class StatsController {
         log.info("Request received POST /hit");
         return endpointHitDtoResult;
     }
-
 }

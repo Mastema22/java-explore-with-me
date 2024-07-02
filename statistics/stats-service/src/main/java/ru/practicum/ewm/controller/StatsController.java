@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.request.EndpointHitDto;
 import ru.practicum.ewm.response.ViewStatsDto;
@@ -33,7 +34,7 @@ public class StatsController {
         return viewStatsList;
     }
 
-    @PostMapping(path = "/hit")
+    @PostMapping(value = "/hit")
     public EndpointHitDto saveHit(@Valid
                                   @RequestBody EndpointHitDto endpointHitDto) {
         EndpointHitDto endpointHitDtoResult = statsService.saveHit(endpointHitDto);
