@@ -39,7 +39,7 @@ public class StatsController {
     public ResponseEntity<Object> saveHit(@RequestHeader(USER_ID) @Positive Long userId,
                                           @Valid
                                           @RequestBody EndpointHitDto endpointHitDto) {
-        ResponseEntity<Object>  endpointHitDtoResult = statsClient.postHit(userId, new EndpointHitDto());
+        ResponseEntity<Object> endpointHitDtoResult = statsClient.postHit(userId, new EndpointHitDto());
         log.info("Request received POST /hit");
         return endpointHitDtoResult;
     }
