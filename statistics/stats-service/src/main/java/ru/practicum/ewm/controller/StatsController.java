@@ -29,7 +29,6 @@ public class StatsController {
                                        @RequestParam(value = "unique", defaultValue = "false") Boolean unique) {
         validateParam(start, end);
         List<ViewStatsDto> viewStatsList = statsService.getStats(start, end, uris, unique);
-        log.info("Request received GET /stats");
         log.info("Statistics collection is completed successfully!");
         return viewStatsList;
     }
@@ -38,7 +37,6 @@ public class StatsController {
     public EndpointHitDto saveHit(@Valid
                                   @RequestBody EndpointHitDto endpointHitDto) {
         EndpointHitDto endpointHitDtoResult = statsService.saveHit(endpointHitDto);
-        log.info("Request received POST /hit");
         log.info("The data has been saved successfully!");
         return endpointHitDtoResult;
     }

@@ -5,16 +5,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import ru.practicum.ewm.request.EndpointHitDto;
-import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-@RestController
 public class StatsClient extends BaseClient {
 
     @Autowired
@@ -27,17 +25,17 @@ public class StatsClient extends BaseClient {
         );
     }
 
-    public ResponseEntity<Object> postHit(EndpointHitDto endpointHitDto) {
-        return post("/hit", endpointHitDto);
+    public ResponseEntity<Object> postHit(Long userId, EndpointHitDto endpointHitDto) {
+        return post("/hit", userId, endpointHitDto);
     }
 
-    public ResponseEntity<Object> getStatistics(String start, String end, List<String> uris, Boolean unique) {
+    public ResponseEntity<Object> getStatistics(Long userId, LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         Map<String, Object> params = Map.of(
                 "start", start,
                 "end", end,
-                "uris", uris,
-                "unique", unique
+                "unique", unique,
+                "uris", uris
         );
-        return get("/stats?start={start}&end={end}&uris=uris&unique={unique}", params);
+        return get("/stats?start={start}&end={end}&uris={uris}&unique={unique}", userId, params);
     }
 }
