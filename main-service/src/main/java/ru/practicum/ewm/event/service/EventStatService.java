@@ -64,4 +64,5 @@ public class EventStatService {
             }
         }
         return eventsViews;
-    }}
+    }
+}

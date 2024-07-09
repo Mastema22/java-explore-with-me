@@ -15,7 +15,6 @@ import static ru.practicum.ewm.constant.Constant.TIME_FORMAT;
 @Setter
 @RequiredArgsConstructor
 public class ApiError {
-    
     private final HttpStatus status;
     private final String reason;
     private final String message;
