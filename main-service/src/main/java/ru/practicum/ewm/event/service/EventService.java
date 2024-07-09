@@ -8,6 +8,9 @@ import ru.practicum.ewm.event.dto.admin.UpdateEventAdminRequest;
 import ru.practicum.ewm.event.dto.user.EventUserParam;
 import ru.practicum.ewm.event.dto.user.UpdateEventUserRequest;
 import ru.practicum.ewm.event.model.Event;
+import ru.practicum.ewm.request.dto.EventRequestStatusUpdateRequest;
+import ru.practicum.ewm.request.dto.EventRequestStatusUpdateResult;
+import ru.practicum.ewm.request.dto.ParticipationRequestDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

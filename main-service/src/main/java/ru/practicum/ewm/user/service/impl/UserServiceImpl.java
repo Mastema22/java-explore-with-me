@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.practicum.ewm.exception.DataValidationException;
+import ru.practicum.ewm.exception.UserNotFoundException;
 import ru.practicum.ewm.user.dto.UserInDto;
 import ru.practicum.ewm.user.dto.UserOutDto;
 import ru.practicum.ewm.user.mapper.UserMapper;
@@ -12,7 +14,6 @@ import ru.practicum.ewm.user.model.User;
 import ru.practicum.ewm.user.repository.UserRepository;
 import ru.practicum.ewm.user.service.UserService;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 

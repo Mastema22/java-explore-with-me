@@ -15,7 +15,7 @@ import ru.practicum.ewm.complitaion.repository.CompilationRepository;
 import ru.practicum.ewm.complitaion.service.CompilationService;
 import ru.practicum.ewm.event.model.Event;
 import ru.practicum.ewm.event.service.EventService;
-import ru.practicum.ewm.event.service.impl.EventStatService;
+import ru.practicum.ewm.event.service.EventStatService;
 import ru.practicum.ewm.exception.CompilationNotFoundException;
 
 import java.util.*;
