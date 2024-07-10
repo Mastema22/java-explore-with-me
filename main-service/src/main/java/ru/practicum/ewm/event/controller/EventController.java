@@ -14,6 +14,7 @@ import ru.practicum.ewm.event.dto.admin.UpdateEventAdminRequest;
 import ru.practicum.ewm.event.dto.user.EventUserParam;
 import ru.practicum.ewm.event.dto.user.UpdateEventUserRequest;
 import ru.practicum.ewm.event.service.EventService;
+import ru.practicum.ewm.request.EndpointHitDto;
 import ru.practicum.ewm.request.dto.EventRequestStatusUpdateResult;
 import ru.practicum.ewm.request.dto.EventRequestStatusUpdateRequest;
 import ru.practicum.ewm.request.dto.ParticipationRequestDto;
@@ -23,6 +24,7 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static ru.practicum.ewm.constant.Constant.SERVICE_ID;
 import static ru.practicum.ewm.constant.Constant.TIME_FORMAT;
 
 @RestController
@@ -92,12 +94,18 @@ public class EventController {
                                                   HttpServletRequest request) {
         EventUserParam eventUserParam = new EventUserParam(text, categories, paid, rangeStart, rangeEnd, onlyAvailable,
                 sort, from, size);
+        EndpointHitDto statisticInDto = new EndpointHitDto(null, SERVICE_ID, request.getRequestURI(), request.getRemoteAddr(),
+                LocalDateTime.now());
+        statisticClient.postHit(statisticInDto);
         return eventService.findEventsByPublic(eventUserParam, request);
     }
 
     @GetMapping("/events/{id}")
     public EventFullDto findPublishedEventById(@PathVariable Long id,
                                                HttpServletRequest request) {
+        EndpointHitDto statisticInDto = new EndpointHitDto(null, SERVICE_ID, request.getRequestURI(), request.getRemoteAddr(),
+                LocalDateTime.now());
+        statisticClient.postHit(statisticInDto);
         return eventService.findPublishedEventById(id, request);
     }
 

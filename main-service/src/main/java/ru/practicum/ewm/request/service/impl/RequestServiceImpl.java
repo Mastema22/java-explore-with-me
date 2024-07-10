@@ -19,6 +19,7 @@ import ru.practicum.ewm.request.service.RequestService;
 import ru.practicum.ewm.user.model.User;
 import ru.practicum.ewm.user.service.UserService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -42,21 +43,29 @@ public class RequestServiceImpl implements RequestService {
     @Override
     @Transactional
     public ParticipationRequestDto addRequest(Long userId, Long eventId) {
-        Request request;
+        Request request = new Request();
+        request.setCreatedAt(LocalDateTime.now().plusHours(2));
+
         User requester = userService.findUserById(userId);
+
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new EventNotFoundException("Событие, указанное для запроса, не найдено"));
+
         List<Request> requests = requestRepository.findAllByRequesterIdAndEventId(userId, eventId);
+
         if (!requests.isEmpty()) {
             throw new DataConflictException("Заявка на участие пользователя с id " + userId + " в событии с id " +
                     eventId + " уже существует");
         }
+
         if (userId.equals(event.getInitiator().getId())) {
             throw new DataConflictException("Создатель события не может быть его участником");
         }
+
         if (!event.getState().equals(EventState.PUBLISHED)) {
             throw new DataConflictException("Заявку на участие можно создать только для опубликованного события");
         }
+
         if (event.getParticipantLimit() != 0 && event.getParticipantLimit().equals(event.getConfirmedRequests())) {
             throw new DataConflictException("Невозможно добавить новую заявку на участие, " +
                     "достигнуто максимальное количество");

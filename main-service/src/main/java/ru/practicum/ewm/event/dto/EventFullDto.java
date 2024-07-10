@@ -11,7 +11,6 @@ import ru.practicum.ewm.user.dto.UserShortDto;
 @NoArgsConstructor
 @Builder
 public class EventFullDto {
-
     private String annotation;
     private CategoryDto category;
     private Integer confirmedRequests;
