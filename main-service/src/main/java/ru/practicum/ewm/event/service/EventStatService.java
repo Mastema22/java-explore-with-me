@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import ru.practicum.ewm.StatsClient;
 import ru.practicum.ewm.response.ViewStatsDto;
-import ru.practicum.ewm.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
