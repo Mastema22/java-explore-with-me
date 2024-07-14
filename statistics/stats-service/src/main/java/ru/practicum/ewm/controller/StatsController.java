@@ -12,7 +12,6 @@ import ru.practicum.ewm.response.ViewStatsDto;
 import ru.practicum.ewm.service.StatsService;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,10 +23,8 @@ public class StatsController {
     private final StatsService statsService;
 
     @GetMapping("/stats")
-    public List<ViewStatsDto> getStats(@NotNull
-                                       @RequestParam(value = "start")
+    public List<ViewStatsDto> getStats(@RequestParam(value = "start")
                                        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
-                                       @NotNull
                                        @RequestParam(value = "end")
                                        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
                                        @RequestParam(value = "uris", required = false) List<String> uris,
@@ -48,6 +45,10 @@ public class StatsController {
     }
 
     private void validateParam(LocalDateTime startDate, LocalDateTime endDate) {
+        if (startDate == null || endDate == null) {
+            throw new DateNotValidationException("Start date or end date cannot be null!");
+        }
+
         if (startDate.isAfter(endDate)) {
             throw new DateNotValidationException("Start date is after end date - checked!");
         }
