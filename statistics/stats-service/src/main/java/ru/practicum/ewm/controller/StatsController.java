@@ -52,4 +52,5 @@ public class StatsController {
         if (startDate.isAfter(endDate)) {
             throw new RuntimeException("Start date is after end date - checked!");
         }
-    }}
+    }
+}
