@@ -6,13 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.ewm.exceptions.DateNotValidationException;
 import ru.practicum.ewm.request.EndpointHitDto;
 import ru.practicum.ewm.response.ViewStatsDto;
 import ru.practicum.ewm.service.StatsService;
 
 import javax.validation.Valid;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,12 +23,8 @@ public class StatsController {
     private final StatsService statsService;
 
     @GetMapping("/stats")
-    public List<ViewStatsDto> getStats(@NotEmpty
-                                       @FutureOrPresent
-                                       @RequestParam(value = "start")
+    public List<ViewStatsDto> getStats(@RequestParam(value = "start")
                                        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
-                                       @NotEmpty
-                                       @FutureOrPresent
                                        @RequestParam(value = "end")
                                        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
                                        @RequestParam(value = "uris", required = false) List<String> uris,
@@ -51,7 +46,14 @@ public class StatsController {
 
     private void validateParam(LocalDateTime startDate, LocalDateTime endDate) {
         if (startDate.isAfter(endDate)) {
-            throw new RuntimeException("Start date is after end date - checked!");
+            throw new DateNotValidationException("Start date is after end date - checked!");
         }
+        if (startDate.isBefore(LocalDateTime.now())) {
+            throw new DateNotValidationException("Start date is before current date - checked!");
+        }
+        if (endDate.isBefore(LocalDateTime.now())) {
+            throw new DateNotValidationException("End date is before current date - checked!");
+        }
+
     }
 }
