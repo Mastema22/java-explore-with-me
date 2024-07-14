@@ -12,6 +12,7 @@ import ru.practicum.ewm.service.StatsService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.xml.bind.ValidationException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class StatsController {
                                        @NotEmpty
                                        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
                                        @RequestParam(value = "uris", required = false) List<String> uris,
-                                       @RequestParam(value = "unique", defaultValue = "false") Boolean unique) {
+                                       @RequestParam(value = "unique", defaultValue = "false") Boolean unique) throws ValidationException {
         validateParam(start, end);
         List<ViewStatsDto> viewStatsList = statsService.getStats(start, end, uris, unique);
         log.info("Statistics collection is completed successfully!");
@@ -46,9 +47,13 @@ public class StatsController {
         return endpointHitDtoResult;
     }
 
-    private void validateParam(LocalDateTime startDate, LocalDateTime endDate) {
+    private void validateParam(LocalDateTime startDate, LocalDateTime endDate) throws ValidationException {
         if (startDate.isAfter(endDate)) {
             throw new RuntimeException("Start date is after end date - checked!");
+        }
+
+        if (startDate == null || endDate == null) {
+            throw new ValidationException("Start date of end date should be correct!");
         }
     }
 }
