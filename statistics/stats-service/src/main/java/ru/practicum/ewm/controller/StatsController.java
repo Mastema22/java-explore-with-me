@@ -21,8 +21,8 @@ public class StatsController {
     private final StatsService statsService;
 
     @GetMapping("/stats")
-    public List<ViewStatsDto> getStats(@RequestParam LocalDateTime start,
-                                       @RequestParam LocalDateTime end,
+    public List<ViewStatsDto> getStats(LocalDateTime start,
+                                       LocalDateTime end,
                                        @RequestParam(value = "uris", required = false) List<String> uris,
                                        @RequestParam(value = "unique", defaultValue = "false") Boolean unique) {
         List<ViewStatsDto> viewStatsList = statsService.getStats(start, end, uris, unique);
