@@ -46,6 +46,10 @@ public class StatsServiceImpl implements StatsService {
     }
 
     private void validateParam(LocalDateTime startDate, LocalDateTime endDate) {
+        if (startDate == null || endDate == null) {
+            throw new DateNotValidationException("Start date or end date cannot be null!");
+        }
+
         if (startDate.isAfter(endDate)) {
             throw new DateNotValidationException("Start date is after end date - checked!");
         }
