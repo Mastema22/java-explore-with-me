@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.request.EndpointHitDto;
 import ru.practicum.ewm.response.ViewStatsDto;
@@ -12,13 +13,13 @@ import ru.practicum.ewm.service.StatsService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import javax.xml.bind.ValidationException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@Validated
 public class StatsController {
 
     private final StatsService statsService;
@@ -31,7 +32,7 @@ public class StatsController {
                                        @NotEmpty
                                        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
                                        @RequestParam(value = "uris", required = false) List<String> uris,
-                                       @RequestParam(value = "unique", defaultValue = "false") Boolean unique) throws ValidationException {
+                                       @RequestParam(value = "unique", defaultValue = "false") Boolean unique) {
         validateParam(start, end);
         List<ViewStatsDto> viewStatsList = statsService.getStats(start, end, uris, unique);
         log.info("Statistics collection is completed successfully!");
@@ -47,13 +48,8 @@ public class StatsController {
         return endpointHitDtoResult;
     }
 
-    private void validateParam(LocalDateTime startDate, LocalDateTime endDate) throws ValidationException {
+    private void validateParam(LocalDateTime startDate, LocalDateTime endDate) {
         if (startDate.isAfter(endDate)) {
             throw new RuntimeException("Start date is after end date - checked!");
         }
-
-        if (startDate == null || endDate == null) {
-            throw new ValidationException("Start date of end date should be correct!");
-        }
-    }
-}
+    }}
