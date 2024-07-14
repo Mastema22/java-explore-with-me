@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.request.EndpointHitDto;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Controller
@@ -21,10 +20,8 @@ public class StatsController {
     private static StatsClient statsClient;
 
     @GetMapping("/stats")
-    public ResponseEntity<Object> getStats(@NotEmpty
-                                           @RequestParam(value = "start")
+    public ResponseEntity<Object> getStats(@RequestParam(value = "start")
                                            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") String start,
-                                           @NotEmpty
                                            @RequestParam(value = "end")
                                            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") String end,
                                            @RequestParam(value = "uris", required = false) List<String> uris,
