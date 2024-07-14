@@ -6,11 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.ewm.exceptions.DateNotValidationException;
 import ru.practicum.ewm.request.EndpointHitDto;
 import ru.practicum.ewm.response.ViewStatsDto;
 import ru.practicum.ewm.service.StatsService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,8 +24,10 @@ public class StatsController {
     private final StatsService statsService;
 
     @GetMapping("/stats")
-    public List<ViewStatsDto> getStats(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
-                                       @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
+    public List<ViewStatsDto> getStats(@NotEmpty
+                                       @RequestParam LocalDateTime start,
+                                       @NotEmpty
+                                       @RequestParam LocalDateTime end,
                                        @RequestParam(value = "uris", required = false) List<String> uris,
                                        @RequestParam(value = "unique", defaultValue = "false") Boolean unique) {
         List<ViewStatsDto> viewStatsList = statsService.getStats(start, end, uris, unique);
