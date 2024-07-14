@@ -22,9 +22,9 @@ public class StatsController {
 
     @GetMapping("/stats")
     public ResponseEntity<Object> getStats(@RequestParam(value = "start")
-                                           @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
+                                           @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") String start,
                                            @RequestParam(value = "end")
-                                           @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
+                                           @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") String end,
                                            @RequestParam(value = "uris", required = false) List<String> uris,
                                            @RequestParam(value = "unique", defaultValue = "false") Boolean unique) {
         ResponseEntity<Object> viewStatsList = statsClient.getStatistics(start, end, uris, unique);

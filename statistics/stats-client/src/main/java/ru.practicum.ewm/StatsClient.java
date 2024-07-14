@@ -32,7 +32,7 @@ public class StatsClient extends BaseClient {
         return post("/hit", endpointHitDto);
     }
 
-    public ResponseEntity<Object> getStatistics(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
+    public ResponseEntity<Object> getStatistics(String start, String end, List<String> uris, Boolean unique) {
         StringBuilder url = new StringBuilder();
         for (String uri : uris) {
             url.append("&uris=").append(uri);

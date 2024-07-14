@@ -61,6 +61,7 @@ public class EventServiceImpl implements EventService {
     private final RequestRepository requestRepository;
 
     @Override
+    @Transactional
     public List<EventShortDto> findEventsOfUser(Long userId, Integer from, Integer size) {
         Map<Long, Long> views;
         List<EventShortDto> userEvents;
@@ -79,7 +80,12 @@ public class EventServiceImpl implements EventService {
         User user = userService.findUserById(userId);
         Category category = categoryService.findCategory(newEventDto.getCategory());
         Event event = EventMapper.toNewEvent(newEventDto, user, category);
+
+        if (event.getDescription().trim().isEmpty() || event.getAnnotation().trim().isEmpty()) {
+            throw new DataValidationException("Описание не может быть пустым или содержать только пробелы!");
+        }
         validateEventTimeByUser(event.getEventDate());
+
         event = eventRepository.save(event);
         EventFullDto dto = EventMapper.toEventFullDto(event);
         dto.setViews(0L);
@@ -108,6 +114,9 @@ public class EventServiceImpl implements EventService {
             throw new DataConflictException("Изменить можно только отмененные события или события в состоянии " +
                     "ожидания модерации");
         }
+        /*if (eventUpdate.getParticipantLimit() < 0) {
+            throw new DataValidationException("Нельзя сделать отрицательное значения лимита участников!");
+        }*/
         if (eventUpdate.getEventDate() != null) {
             LocalDateTime updateEventTime = LocalDateTime.parse(eventUpdate.getEventDate(), FORMATTER);
             validateEventTimeByUser(updateEventTime);

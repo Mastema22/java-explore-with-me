@@ -35,7 +35,6 @@ public class EventController {
     private final EventService eventService;
     private final StatsClient statisticClient;
 
-    //Private endpoints
     @PostMapping(value = "/users/{userId}/events")
     @ResponseStatus(HttpStatus.CREATED)
     public EventFullDto addEvent(@PathVariable Long userId, @Valid @RequestBody NewEventDto newEventDto) {
@@ -61,7 +60,6 @@ public class EventController {
         return eventService.userUpdateEvent(userId, eventId, updateEventUserRequest);
     }
 
-    //Admin endpoints
     @GetMapping("/admin/events")
     public List<EventFullDto> findEventsByAdmin(@RequestParam(required = false) List<Long> users,
                                                 @RequestParam(required = false) List<String> states,

@@ -35,7 +35,6 @@ public class EventMapper {
                 .createdOn(LocalDateTime.now())
                 .confirmedRequests(0)
                 .build();
-
         if (newEventDto.getPaid() != null) {
             event.setIsPaid(newEventDto.getPaid());
         } else {
@@ -51,7 +50,6 @@ public class EventMapper {
         } else {
             event.setParticipantLimit(0);
         }
-
         return event;
     }
 
@@ -120,6 +118,7 @@ public class EventMapper {
                 .views(eventViews.get(event.getId()))
                 .build();
     }
+
 
     public static List<EventShortDto> toShortDtos(List<Event> events, Map<Long, Long> eventViews) {
         return events.stream()

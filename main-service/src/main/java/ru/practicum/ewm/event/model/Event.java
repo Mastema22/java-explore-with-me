@@ -6,6 +6,8 @@ import ru.practicum.ewm.complitaion.model.Compilation;
 import ru.practicum.ewm.user.model.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.List;
 

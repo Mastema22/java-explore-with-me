@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import static ru.practicum.ewm.constant.Constant.EVENT_URI;
+import static ru.practicum.ewm.constant.Constant.FORMATTER;
 
 @Slf4j
 @Component
@@ -39,8 +40,8 @@ public class EventStatService {
             uris.add(EVENT_URI + id);
         }
         ResponseEntity<Object> response = statisticClient.getStatistics(
-                LocalDateTime.now().minusDays(100),
-                LocalDateTime.now(),
+                LocalDateTime.now().minusDays(100).format(FORMATTER),
+                LocalDateTime.now().format(FORMATTER),
                 uris, true);
         Object body = response.getBody();
         if (body != null) {
