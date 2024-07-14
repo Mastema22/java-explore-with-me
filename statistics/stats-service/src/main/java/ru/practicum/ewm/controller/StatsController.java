@@ -48,12 +48,8 @@ public class StatsController {
         if (startDate.isAfter(endDate)) {
             throw new DateNotValidationException("Start date is after end date - checked!");
         }
-        if (startDate.isBefore(LocalDateTime.now())) {
+        if (startDate == null) {
             throw new DateNotValidationException("Start date is before current date - checked!");
         }
-        if (endDate.isBefore(LocalDateTime.now())) {
-            throw new DateNotValidationException("End date is before current date - checked!");
-        }
-
     }
 }
