@@ -3,10 +3,8 @@ package ru.practicum.ewm.controller;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.ewm.exceptions.DateNotValidationException;
 import ru.practicum.ewm.request.EndpointHitDto;
 import ru.practicum.ewm.response.ViewStatsDto;
 import ru.practicum.ewm.service.StatsService;
