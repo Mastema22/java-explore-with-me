@@ -10,7 +10,6 @@ import ru.practicum.ewm.response.ViewStatsDto;
 import ru.practicum.ewm.service.StatsService;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,9 +21,7 @@ public class StatsController {
     private final StatsService statsService;
 
     @GetMapping("/stats")
-    public List<ViewStatsDto> getStats(@NotEmpty
-                                       @RequestParam LocalDateTime start,
-                                       @NotEmpty
+    public List<ViewStatsDto> getStats(@RequestParam LocalDateTime start,
                                        @RequestParam LocalDateTime end,
                                        @RequestParam(value = "uris", required = false) List<String> uris,
                                        @RequestParam(value = "unique", defaultValue = "false") Boolean unique) {
