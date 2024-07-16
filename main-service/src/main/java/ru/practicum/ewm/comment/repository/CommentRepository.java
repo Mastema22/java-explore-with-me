@@ -4,8 +4,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import ru.practicum.ewm.comment.dto.response.CommentResponseDto;
-import ru.practicum.ewm.comment.mapper.CommentMapper;
 import ru.practicum.ewm.comment.model.Comment;
 
 import java.util.List;
