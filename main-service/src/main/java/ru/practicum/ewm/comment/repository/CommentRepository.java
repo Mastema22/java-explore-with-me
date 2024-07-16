@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long>,
         JpaSpecificationExecutor<Comment>, PagingAndSortingRepository<Comment, Long> {
+
     List<Comment> findAllByEventId(Long eventId, Pageable page);
+
     List<Comment> findAllByEventId(Long eventId);
 }
