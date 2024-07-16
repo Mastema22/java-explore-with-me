@@ -118,6 +118,28 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiError handleCommentNotFoundException(CommentNotFoundException e) {
+        log.error("Ошибка поиска комментария");
+        StringWriter out = new StringWriter();
+        e.printStackTrace(new PrintWriter(out));
+        String stackTrace = out.toString();
+        return new ApiError(HttpStatus.NOT_FOUND, "Ошибка поиска комментария", e.getMessage(),
+                Collections.singletonList(stackTrace), LocalDateTime.now());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiError handleCommentConflictException(CommentConflictException e) {
+        log.error("Ошибка комментария");
+        StringWriter out = new StringWriter();
+        e.printStackTrace(new PrintWriter(out));
+        String stackTrace = out.toString();
+        return new ApiError(HttpStatus.NOT_FOUND, "Ошибка комментария", e.getMessage(),
+                Collections.singletonList(stackTrace), LocalDateTime.now());
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
         log.error("Отстутсвует необходимый параметр запроса");

@@ -2,6 +2,7 @@ package ru.practicum.ewm.event.service;
 
 import ru.practicum.ewm.event.dto.EventFullDto;
 import ru.practicum.ewm.event.dto.EventShortDto;
+import ru.practicum.ewm.event.dto.EventWithCommentsFullDto;
 import ru.practicum.ewm.event.dto.NewEventDto;
 import ru.practicum.ewm.event.dto.admin.EventAdminParam;
 import ru.practicum.ewm.event.dto.admin.UpdateEventAdminRequest;
@@ -31,11 +32,13 @@ public interface EventService {
 
     List<EventShortDto> findEventsByPublic(EventUserParam eventUserParam, HttpServletRequest request);
 
-    EventFullDto findPublishedEventById(Long eventId, HttpServletRequest request);
+    EventWithCommentsFullDto findEventByIdWithComment(Long eventId, HttpServletRequest request);
 
     List<ParticipationRequestDto> findUserEventRequests(Long userId, Long eventId);
 
     EventRequestStatusUpdateResult changeEventRequestsStatus(Long userId, Long eventId, EventRequestStatusUpdateRequest request);
 
     List<Event> findAllByIds(List<Long> ids);
+
+    Event findEventById(Long eventId);
 }

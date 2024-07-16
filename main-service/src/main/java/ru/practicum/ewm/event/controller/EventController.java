@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.StatsClient;
 import ru.practicum.ewm.event.dto.EventFullDto;
 import ru.practicum.ewm.event.dto.EventShortDto;
+import ru.practicum.ewm.event.dto.EventWithCommentsFullDto;
 import ru.practicum.ewm.event.dto.NewEventDto;
 import ru.practicum.ewm.event.dto.admin.EventAdminParam;
 import ru.practicum.ewm.event.dto.admin.UpdateEventAdminRequest;
@@ -78,7 +79,6 @@ public class EventController {
         return eventService.adminUpdateEvent(eventId, updateRequest);
     }
 
-    //Public endpoints
     @GetMapping("/events")
     public List<EventShortDto> findEventsByPublic(@RequestParam(required = false) String text,
                                                   @RequestParam(required = false) List<Long> categories,
@@ -98,15 +98,6 @@ public class EventController {
         return eventService.findEventsByPublic(eventUserParam, request);
     }
 
-    @GetMapping("/events/{id}")
-    public EventFullDto findPublishedEventById(@PathVariable Long id,
-                                               HttpServletRequest request) {
-        EndpointHitDto statisticInDto = new EndpointHitDto(null, SERVICE_ID, request.getRequestURI(), request.getRemoteAddr(),
-                LocalDateTime.now());
-        statisticClient.postHit(statisticInDto);
-        return eventService.findPublishedEventById(id, request);
-    }
-
     @GetMapping("/users/{userId}/events/{eventId}/requests")
     public List<ParticipationRequestDto> findUserEventRequests(@PathVariable Long userId, @PathVariable Long eventId) {
         return eventService.findUserEventRequests(userId, eventId);
@@ -117,5 +108,14 @@ public class EventController {
                                                                     @PathVariable Long eventId,
                                                                     @Valid @RequestBody EventRequestStatusUpdateRequest updateRequest) {
         return eventService.changeEventRequestsStatus(userId, eventId, updateRequest);
+    }
+
+    @GetMapping("/events/{id}")
+    public EventWithCommentsFullDto findEventByIdWithComment(@PathVariable Long id,
+                                                             HttpServletRequest request) {
+        EndpointHitDto statisticInDto = new EndpointHitDto(null, SERVICE_ID, request.getRequestURI(), request.getRemoteAddr(),
+                LocalDateTime.now());
+        statisticClient.postHit(statisticInDto);
+        return eventService.findEventByIdWithComment(id, request);
     }
 }
