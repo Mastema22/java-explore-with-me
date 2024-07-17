@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.category.model.Category;
 import ru.practicum.ewm.category.service.CategoryService;
+import ru.practicum.ewm.comment.dto.response.CommentResponseDto;
+import ru.practicum.ewm.comment.service.CommentEventService;
 import ru.practicum.ewm.event.dto.EventFullDto;
 import ru.practicum.ewm.event.dto.EventShortDto;
+import ru.practicum.ewm.event.dto.EventWithCommentsFullDto;
 import ru.practicum.ewm.event.dto.NewEventDto;
 import ru.practicum.ewm.event.dto.admin.EventAdminParam;
 import ru.practicum.ewm.event.dto.admin.UpdateEventAdminRequest;
@@ -59,6 +62,7 @@ public class EventServiceImpl implements EventService {
     private final CategoryService categoryService;
     private final EventStatService eventStatService;
     private final RequestRepository requestRepository;
+    private final CommentEventService commentEventService;
 
     @Override
     @Transactional
@@ -114,9 +118,6 @@ public class EventServiceImpl implements EventService {
             throw new DataConflictException("Изменить можно только отмененные события или события в состоянии " +
                     "ожидания модерации");
         }
-        /*if (eventUpdate.getParticipantLimit() < 0) {
-            throw new DataValidationException("Нельзя сделать отрицательное значения лимита участников!");
-        }*/
         if (eventUpdate.getEventDate() != null) {
             LocalDateTime updateEventTime = LocalDateTime.parse(eventUpdate.getEventDate(), FORMATTER);
             validateEventTimeByUser(updateEventTime);
@@ -293,12 +294,14 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventFullDto findPublishedEventById(Long eventId, HttpServletRequest request) {
+    public EventWithCommentsFullDto findEventByIdWithComment(Long eventId, HttpServletRequest request) {
         Map<Long, Long> views = eventStatService.getEventsViews(List.of(eventId));
         Event event = eventRepository.findByIdAndState(eventId, EventState.PUBLISHED)
                 .orElseThrow(() -> new EventNotFoundException("Опубликованного события с указанным id не найдено"));
-        log.info("Выполнен публичный поиск опубликованного события с id {}", eventId);
-        return EventMapper.toEventFullDtoWithViews(event, views);
+        EventFullDto eventFullDto = EventMapper.toEventFullDtoWithViews(event,views);
+        List<CommentResponseDto> commentResponseDtos = commentEventService.findCommentResponseDtos(eventId);
+        log.info("Выполнен публичный поиск опубликованного события с комментарием по id {}", eventId);
+        return EventMapper.toEventWithCommentsFullDto(eventFullDto, commentResponseDtos);
     }
 
     @Override
@@ -368,6 +371,12 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> findAllByIds(List<Long> ids) {
         return eventRepository.findAllByIdIn(ids);
+    }
+
+    @Override
+    public Event findEventById(Long eventId) {
+        return eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException("Событие с id "
+                + eventId + " не найдено"));
     }
 
     private Sort getEventSort(String eventSort) {
@@ -458,11 +467,6 @@ public class EventServiceImpl implements EventService {
             default:
                 throw new InvalidRequestException("Неизвестный параметр состояния события");
         }
-    }
-
-    private Event findEventById(Long eventId) {
-        return eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException("Событие с id "
-                + eventId + " не найдено"));
     }
 
     private Event findEventByIdAndInitiatorId(Long userId, Long eventId) {

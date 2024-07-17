@@ -2,11 +2,13 @@ package ru.practicum.ewm.event.mapper;
 
 import ru.practicum.ewm.category.mapper.CategoryMapper;
 import ru.practicum.ewm.category.model.Category;
+import ru.practicum.ewm.comment.dto.response.CommentResponseDto;
 import ru.practicum.ewm.event.dto.EventFullDto;
 import ru.practicum.ewm.event.dto.EventShortDto;
 import ru.practicum.ewm.event.dto.NewEventDto;
 import ru.practicum.ewm.event.model.Event;
 import ru.practicum.ewm.event.model.EventState;
+import ru.practicum.ewm.event.dto.EventWithCommentsFullDto;
 import ru.practicum.ewm.event.model.Location;
 import ru.practicum.ewm.user.mapper.UserMapper;
 import ru.practicum.ewm.user.model.User;
@@ -124,5 +126,27 @@ public class EventMapper {
         return events.stream()
                 .map(event -> toEventShortDto(event, eventViews))
                 .collect(Collectors.toList());
+    }
+
+    public static EventWithCommentsFullDto toEventWithCommentsFullDto(EventFullDto eventFullDto,
+                                                                      List<CommentResponseDto> commentResponseDtos) {
+        return  EventWithCommentsFullDto.builder()
+                .id(eventFullDto.getId())
+                .annotation(eventFullDto.getAnnotation())
+                .category(eventFullDto.getCategory())
+                .confirmedRequests(0)
+                .createdOn(eventFullDto.getCreatedOn())
+                .description(eventFullDto.getDescription())
+                .eventDate(eventFullDto.getEventDate())
+                .initiator(eventFullDto.getInitiator())
+                .location(eventFullDto.getLocation())
+                .paid(eventFullDto.getPaid())
+                .participantLimit(eventFullDto.getParticipantLimit())
+                .requestModeration(eventFullDto.getRequestModeration())
+                .state(eventFullDto.getState())
+                .title(eventFullDto.getTitle())
+                .views(eventFullDto.getViews())
+                .comments(commentResponseDtos)
+                .build();
     }
 }
